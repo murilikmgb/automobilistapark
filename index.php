@@ -1,15 +1,22 @@
+<?php
+include("conexao.php");
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AUTOMOBILISTA PARK</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <!-- HEADER -->
     <header>
+
         <div class="logo">
             <a href="#">
                 <img src="img/logo.png" alt="AUTOMOBILISTA PARK">
@@ -25,6 +32,7 @@
                 <li><a href="#">Contato</a></li>
             </ul>
         </nav>
+
     </header>
 
     <!-- BANNER -->
@@ -38,65 +46,77 @@
 
         <p>
             A AUTOMOBILISTA PARK é uma loja virtual especializada em produtos
-            pessoais e profissionais para automobilismo. Nosso objetivo é
-            oferecer equipamentos de qualidade para pilotos amadores e
-            profissionais, proporcionando segurança, conforto e desempenho.
+            pessoais e profissionais para automobilismo.
         </p>
 
         <p>
-            Trabalhamos com capacetes, luvas, macacões, balaclavas,
-            jaquetas, bonés, mochilas, bolsas, óculos e diversos acessórios
-            inspirados nas maiores marcas do automobilismo mundial.
+            Nosso objetivo é atender pilotos amadores e profissionais,
+            oferecendo equipamentos de qualidade, conforto e segurança.
         </p>
     </section>
 
     <!-- PRODUTOS -->
     <section class="produtos">
+
         <h2>Produtos em Destaque</h2>
 
         <div class="grid-produtos">
 
-            <div class="card">
-                <img src="img/capacete.jpg" alt="Capacete">
-                <h3>Capacete Racing</h3>
-                <p>R$ 1.299,90</p>
-            </div>
+            <?php
 
-            <div class="card">
-                <img src="img/luva.jpg" alt="Luva">
-                <h3>Luva Profissional</h3>
-                <p>R$ 249,90</p>
-            </div>
+            $sql = "SELECT * FROM produtos LIMIT 4";
+            $resultado = mysqli_query($conexao, $sql);
 
-            <div class="card">
-                <img src="img/macacao.jpg" alt="Macacão">
-                <h3>Macacão Racing</h3>
-                <p>R$ 1.899,90</p>
-            </div>
+            if ($resultado && mysqli_num_rows($resultado) > 0) {
 
-            <div class="card">
-                <img src="img/oculos.jpg" alt="Óculos">
-                <h3>Óculos Esportivo</h3>
-                <p>R$ 399,90</p>
-            </div>
+                while ($produto = mysqli_fetch_assoc($resultado)) {
+            ?>
+
+                    <div class="card">
+
+                        <img src="img/produtos/<?php echo $produto['id_produto']; ?>.jpg" alt="<?php echo $produto['nome_produto']; ?>">
+
+                        <h3>
+                            <?php echo $produto['nome_produto']; ?>
+                        </h3>
+
+                        <p>
+                            <?php echo $produto['descricao_produto']; ?>
+                        </p>
+
+                        <span class="preco">
+                            R$ <?php echo number_format($produto['preco_produto'], 2, ',', '.'); ?>
+                        </span>
+
+                    </div>
+
+            <?php
+                }
+            } else {
+                echo "<p>Nenhum produto cadastrado.</p>";
+            }
+            ?>
 
         </div>
+
     </section>
 
     <!-- FUTURAS FUNCIONALIDADES -->
     <section class="futuro">
-        <h2>Em Breve</h2>
+
+        <h2>Funcionalidades Futuras</h2>
 
         <div class="futuro-grid">
             <div>Cadastro</div>
             <div>Login</div>
             <div>Carrinho</div>
             <div>Favoritos</div>
+            <div>Área RH</div>
             <div>Cashback</div>
             <div>Chatbot IA</div>
-            <div>Área RH</div>
             <div>Sugestão de Produtos</div>
         </div>
+
     </section>
 
     <!-- RODAPÉ -->
@@ -106,4 +126,5 @@
     </footer>
 
 </body>
+
 </html>
